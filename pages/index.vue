@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <nuxt-link to="/products" class="a-button-buy-again">Add</nuxt-link>
     <div>
       <Logo />
       <h1 class="title">
