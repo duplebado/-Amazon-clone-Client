@@ -15,7 +15,11 @@
       <div class="row">
         <div class="col-sm-5 text-center">
           <div class="bx-root-image">
-            <img src="/img/3.jpg" alt="featured product" class="img-fluid" />
+            <img
+              src="/img/harry_potter.jpg"
+              alt="featured product"
+              class="img-fluid"
+            />
           </div>
         </div>
         <div class="col-sm-7 m-auto">
