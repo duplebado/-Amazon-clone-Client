@@ -32,7 +32,7 @@
         <input
           type="search"
           name="search"
-          placeholder="Search your website"
+          placeholder="Search for your favorite product"
           autocomplete="off"
           required="required"
           class="sbx-amazon__input"
