@@ -64,8 +64,34 @@ export default {
   data() {
     return {
       name: "",
-      email: ""
+      email: "",
+      password: ""
     };
+  },
+  methods: {
+    async onUpdateProfile() {
+      try {
+        let data = {
+          name: this.name,
+          email: this.email,
+          password: this.password
+        };
+
+        let response = await this.$axios.$put("/api/auth/user", data);
+
+        console.log(response);
+
+        if (response.success) {
+          this.name = "";
+          this.email = "";
+          this.password = "";
+
+          await this.$auth.fetchUser();
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
   }
 };
 </script>
