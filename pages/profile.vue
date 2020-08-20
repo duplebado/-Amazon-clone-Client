@@ -6,6 +6,14 @@
         <div class="col-sm-6">
           <div class="a-spacing-top-medium"></div>
           <h2>Profile Page</h2>
+
+          <div class="a-spacing-top-large">
+            <span class="a-button-register">
+              <span class="a-button-inner">
+                <span class="a-button-text" @click="onLogout">Logout</span>
+              </span>
+            </span>
+          </div>
           <form>
             <!-- Name  -->
             <div class="a-spacing-top-medium">
@@ -91,6 +99,10 @@ export default {
       } catch (err) {
         console.log(err);
       }
+    },
+
+    async onLogout() {
+      await this.$auth.logout();
     }
   }
 };
