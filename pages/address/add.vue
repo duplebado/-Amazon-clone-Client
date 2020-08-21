@@ -50,8 +50,13 @@
                   <div class="a-spacing-top-medium">
                     <label style="margin-bottom: 0px;">Country/Region</label>
                     <select class="a-select-option" v-model="country">
-                      <option value>--</option>
-                      <option></option>
+                      <option
+                        v-for="country in countries"
+                        :key="country.alpha2Code"
+                        :value="country.name"
+                        >{{ country.name }}
+                      </option>
+                      <!-- <option valu></option> -->
                     </select>
                   </div>
                   <!-- Full name -->
@@ -210,10 +215,25 @@
 
 <script>
 export default {
+  async asyncData({ $axios }) {
+    try {
+      let response = await $axios.$get("/api/countries");
+
+      if (response) {
+        return {
+          countries: response.countries
+        };
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  },
+
   data() {
     return {
-      country: "",
+      country: "Nigeria",
       streetAddress1: "",
+      fullName: "",
       streetAddress2: "",
       city: "",
       state: "",
@@ -228,6 +248,7 @@ export default {
       try {
         let data = {
           country: this.country,
+          fullName: this.fullName,
           streetAddress1: this.streetAddress1,
           streetAddress2: this.streetAddress2,
           city: this.city,
