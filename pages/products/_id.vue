@@ -6,9 +6,11 @@
       <ul class="a-unordered-list a-horizontal a-size-small">
         <li>
           <span class="a-list-item">
-            <a href="#" class="a-link-normal a-color-tertiary">{{
-              product.category.type
-            }}</a>
+            <a href="#" class="a-link-normal a-color-tertiary"
+              >{{
+              <!-- product.category.type -->
+              }}</a
+            >
           </span>
         </li>
         <li>
@@ -391,24 +393,53 @@
             </div>
           </div>
         </div>
+
+        <ReviewSection :product="product" :reviews="reviews" />
       </div>
     </div>
   </main>
 </template>
 <script>
+import ReviewSection from "~/components/ReviewSection";
+
 export default {
+  components: {
+    ReviewSection
+  },
   async asyncData({ $axios, params }) {
     try {
-      let response = await $axios.$get(`/api/product/${params.id}`);
+      let singleProduct = $axios.$get(`/api/product/${params.id}`);
+      let manyReviews = $axios.$get(`/api/reviews/${params.id}`);
 
-      console.log(response);
+      const [productResponse, reviewsResponse] = await Promise.all([
+        singleProduct,
+        manyReviews
+      ]);
+
+      console.log(productResponse);
 
       return {
-        product: response.product
+        product: productResponse.product,
+        reviews: reviewsResponse.reviews
       };
     } catch (err) {
       console.log(err);
     }
   }
+
+  //  async asyncData({ $axios, params }) {
+  //   try {
+  //     let response = await $axios.$get(`/api/product/${params.id}`);
+
+  //     console.log(response);
+  //     console.log(response.product);
+
+  //     return {
+  //       product: response.product
+  //     };
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }
 };
 </script>
