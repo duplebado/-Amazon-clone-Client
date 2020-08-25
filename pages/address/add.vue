@@ -196,7 +196,9 @@
                   <div class="a-spacing-top-large">
                     <span class="a-button-register">
                       <span class="a-button-inner">
-                        <span class="a-button-text">Add address</span>
+                        <span class="a-button-text" @click="onAddAddress"
+                          >Add address</span
+                        >
                       </span>
                     </span>
                   </div>
@@ -249,8 +251,7 @@ export default {
         let data = {
           country: this.country,
           fullName: this.fullName,
-          streetAddress1: this.streetAddress1,
-          streetAddress2: this.streetAddress2,
+          streetAddress: this.streetAddress1 + ", " + this.streetAddress2,
           city: this.city,
           state: this.state,
           zipCode: this.zipCode,
