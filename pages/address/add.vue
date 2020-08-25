@@ -221,7 +221,7 @@ export default {
     try {
       let response = await $axios.$get("/api/countries");
 
-      if (response) {
+      if (response.success) {
         return {
           countries: response.countries
         };
@@ -263,7 +263,7 @@ export default {
         let response = await this.$axios.$post(`/api/address/`, data);
 
         if (response) {
-          this.$router.push("/");
+          this.$router.push("/address");
         }
       } catch (error) {
         console.log(error);
