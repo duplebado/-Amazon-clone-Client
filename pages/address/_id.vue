@@ -31,7 +31,7 @@
               </div>
             </div>
             <div class="a-section">
-              <h2>Add a new address</h2>
+              <h2>Update address</h2>
               <div class="a-section a-spacing-none a-spacing-top-small">
                 <b>
                   Or pick up your packages at your convenience from our
@@ -67,6 +67,7 @@
                       class="a-input-text"
                       style="width: 100%;"
                       v-model="fullName"
+                      :placeholder="address.fullName"
                     />
                   </div>
                   <!-- Street Address -->
@@ -76,8 +77,8 @@
                       type="text"
                       class="a-input-text"
                       style="width: 100%;"
-                      placeholder="Street and number, P.O. box, c/o."
                       v-model="streetAddress1"
+                      :placeholder="address.streetAddress"
                     />
                     <!-- Street Address 2 -->
                     <input
@@ -95,6 +96,7 @@
                       type="text"
                       class="a-input-text"
                       style="width: 100%;"
+                      :placeholder="address.city"
                       v-model="city"
                     />
                   </div>
@@ -107,6 +109,7 @@
                       type="text"
                       class="a-input-text"
                       style="width: 100%;"
+                      :placeholder="address.state"
                       v-model="state"
                     />
                   </div>
@@ -117,6 +120,7 @@
                       type="text"
                       class="a-input-text"
                       style="width: 100%;"
+                      :placeholder="address.zipCode"
                       v-model="zipCode"
                     />
                   </div>
@@ -127,6 +131,7 @@
                       type="text"
                       class="a-input-text"
                       style="width: 100%;"
+                      :placeholder="address.phoneNumber"
                       v-model="phoneNumber"
                     />
                     <div class="a-section a-spacing-none a-spacing-top-micro">
@@ -145,7 +150,7 @@
                       address?</label
                     >
                     <textarea
-                      placeholder="Provide details such as building description, a nearby landmark, or other navigation instructions"
+                      :placeholder="address.deliverInstructions"
                       style="height:6em; width: 100%;"
                       v-model="deliveryInstructions"
                     ></textarea>
@@ -157,10 +162,10 @@
                       this building?</label
                     >
                     <input
+                      :placeholder="address.securityCode"
                       type="text"
                       class="a-input-text"
                       style="width: 100%;"
-                      placeholder="1234"
                       v-model="securityCode"
                     />
                   </div>
@@ -196,8 +201,8 @@
                   <div class="a-spacing-top-large">
                     <span class="a-button-register">
                       <span class="a-button-inner">
-                        <span class="a-button-text" @click="onAddAddress"
-                          >Add address</span
+                        <span class="a-button-text" @click="onUpdateAddress"
+                          >Update address</span
                         >
                       </span>
                     </span>
@@ -217,15 +222,20 @@
 
 <script>
 export default {
-  async asyncData({ $axios }) {
+  async asyncData({ $axios, params }) {
     try {
-      let response = await $axios.$get("/api/countries");
+      let response = $axios.$get("/api/countries");
+      let currentAddress = $axios.$get(`/api/address/${params.id}`);
 
-      if (response.success) {
-        return {
-          countries: response.countries
-        };
-      }
+      let [countriesResponse, addressResponse] = await Promise.all([
+        response,
+        currentAddress
+      ]);
+
+      return {
+        countries: countriesResponse.countries,
+        address: addressResponse.address
+      };
     } catch (err) {
       console.log(err);
     }
@@ -246,7 +256,7 @@ export default {
     };
   },
   methods: {
-    async onAddAddress() {
+    async onUpdateAddress() {
       try {
         let data = {
           country: this.country,
@@ -260,7 +270,10 @@ export default {
           securityCode: this.securityCode
         };
 
-        let response = await this.$axios.$post(`/api/address/`, data);
+        let response = await this.$axios.$put(
+          `/api/address/${this.$route.params.id}`,
+          data
+        );
 
         if (response) {
           this.$router.push("/address");

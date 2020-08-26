@@ -155,7 +155,7 @@ export default {
   async asyncData({ $axios }) {
     try {
       let response = await $axios.$get("/api/products");
-      console.log(response);
+
       return {
         products: response.products
       };

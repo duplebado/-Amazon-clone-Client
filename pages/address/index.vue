@@ -62,7 +62,7 @@
                               <li>
                                 <h5>
                                   <!-- Address Fullname -->
-                                  <b>{{ address.fullname }}</b>
+                                  <b>{{ address.fullName }}</b>
                                 </h5>
                               </li>
                               <!-- Address street address -->
@@ -80,10 +80,13 @@
                           </div>
                         </div>
                       </div>
-                      <!-- Delete Button -->
+                      <!-- Update Button -->
                       <div class="edit-address-desktop-link">
-                        <a href="#">Edit</a>
+                        <nuxt-link :to="`/address/${address._id}`"
+                          >Edit</nuxt-link
+                        >
                         &nbsp; | &nbsp;
+                        <!-- Delete Button -->
                         <a href="#" @click="onDeleteAddress(address._id, index)"
                           >Delete</a
                         >
