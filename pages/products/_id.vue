@@ -8,7 +8,7 @@
           <span class="a-list-item">
             <a href="#" class="a-link-normal a-color-tertiary"
               >{{
-              <!-- product.category.type -->
+              product.category.type
               }}</a
             >
           </span>
@@ -279,7 +279,7 @@
                 </div>
 
                 <div class="a-section">
-                  <div class="a-button-stack">
+                  <div class="a-button-stack" @click="addProductToCart(product)">
                     <span
                       class="a-spacing-small a-button-primary a-button-icon"
                     >
@@ -404,6 +404,7 @@
   </main>
 </template>
 <script>
+import {mapActions} from "vuex"
 import StarRating from "vue-star-rating"
 import ReviewSection from "~/components/ReviewSection";
 
@@ -422,8 +423,6 @@ export default {
         manyReviews
       ]);
 
-      console.log(reviewsResponse.reviews);
-
       return {
         product: productResponse.product,
         reviews: reviewsResponse.reviews
@@ -431,21 +430,9 @@ export default {
     } catch (err) {
       console.log(err);
     }
+  },
+  methods: {
+    ...mapActions(["addProductToCart"]),
   }
-
-  //  async asyncData({ $axios, params }) {
-  //   try {
-  //     let response = await $axios.$get(`/api/product/${params.id}`);
-
-  //     console.log(response);
-  //     console.log(response.product);
-
-  //     return {
-  //       product: response.product
-  //     };
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // }
 };
-</script>
+</script> 
