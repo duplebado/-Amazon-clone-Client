@@ -45,5 +45,27 @@ export const mutations = {
 export const getters = {
   getCartLength(state) {
     return state.cartLength;
+  },
+  getCart(state) {
+    return state.cart;
+  },
+  getCartTotalPrice(state) {
+    let totalPrice = 0;
+
+    //Method 1
+
+    // state.cart.forEach(product => {
+    //   let priceofEach = product.price * product.quantity;
+    //   totalPrice += priceofEach;
+    // });
+
+    // return totalPrice;
+
+    //Method 2
+    state.cart.map(product => {
+      totalPrice += product.price * product.quantity;
+    });
+
+    return totalPrice;
   }
 };
