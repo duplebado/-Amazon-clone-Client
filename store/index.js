@@ -5,30 +5,37 @@ export const state = () => ({
 });
 
 export const actions = {
-  addProductToCart({ state, commit }, product) {
+  addProductToCart({ state, commit }, { product, value }) {
+    // console.log(product, value);
     const cartProduct = state.cart.find(prod => prod._id === product._id);
 
     if (!cartProduct) {
-      commit("pushProductToCart", product);
+      commit("pushProductToCart", { product, value });
     } else {
-      commit("incrementProductQty", cartProduct);
+      commit("incrementProductQty", { cartProduct, value });
     }
 
     commit("incrementCartLength");
+  },
+  changeQuantity({ state, commit }, { product, value }) {
+    commit("changeProductQuantity", { product, value });
   }
 };
 
 export const mutations = {
-  pushProductToCart(state, product) {
-    product.quantity = 1;
+  pushProductToCart(state, { product, value }) {
+    value = Number(value);
+    product.quantity = value;
+
     state.cart.push(product);
   },
 
-  incrementProductQty(state, product) {
-    product.quantity++;
+  incrementProductQty(state, { cartProduct, value }) {
+    value = Number(value);
+    cartProduct.quantity += value;
 
-    let indexOfProduct = state.cart.indexOf(product);
-    state.cart.splice(indexOfProduct, 1, product);
+    let indexOfProduct = state.cart.indexOf(cartProduct);
+    state.cart.splice(indexOfProduct, 1, cartProduct);
   },
 
   incrementCartLength(state) {
@@ -39,6 +46,35 @@ export const mutations = {
         state.cartLength += product.quantity;
       });
     }
+  },
+
+  changeProductQuantity(state, { product, value }) {
+    value = Number(value);
+    product.quantity = value;
+
+    let indexOfProduct = state.cart.indexOf(product);
+    state.cart.splice(indexOfProduct, 1, product);
+
+    if (state.cart.length > 0) {
+      state.cart.map(product => {
+        state.cartLength += product.quantity;
+      });
+    }
+  },
+
+  changeQty(state, { product, qty }) {
+    let cartProduct = state.cart.find(prod => prod._id === product._id);
+    cartProduct.quantity = qty;
+
+    state.cartLength = 0;
+    if (state.cart.length > 0) {
+      state.cart.map(product => {
+        state.cartLength += product.quantity;
+      });
+    }
+
+    let indexOfProduct = state.cart.indexOf(cartProduct);
+    state.cart.splice(indexOfProduct, 1, cartProduct);
   }
 };
 

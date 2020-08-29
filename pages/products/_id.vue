@@ -251,12 +251,17 @@
                 <div class="a-section a-spacing-none">
                   <div class="row">
                     <div class="col-sm-5 col-5">
-                      <select>
+                      <select v-model="value">
                         <option value="1">Qty: &nbsp; 1</option>
                         <option value="2">Qty: &nbsp; 2</option>
                         <option value="3">Qty: &nbsp; 3</option>
                         <option value="4">Qty: &nbsp; 4</option>
                         <option value="5">Qty: &nbsp; 5</option>
+                        <option value="6">Qty: &nbsp; 6</option>
+                        <option value="7">Qty: &nbsp; 7</option>
+                        <option value="8">Qty: &nbsp; 8</option>
+                        <option value="9">Qty: &nbsp; 9</option>
+                        <option value="10">Qty: &nbsp; 10</option>
                       </select>
                     </div>
                   </div>
@@ -279,7 +284,7 @@
                 </div>
 
                 <div class="a-section">
-                  <div class="a-button-stack" @click="addProductToCart(product)">
+                  <div class="a-button-stack" @click="addProductToCart({product: product, value: value})">
                     <span
                       class="a-spacing-small a-button-primary a-button-icon"
                     >
@@ -290,7 +295,7 @@
                           name="submit.add-to-cart"
                           class="a-button-input"
                         />
-                        <span class="a-button-text">Add to Cart</span>
+                        <span class="a-button-text" >Add to Cart</span>
                       </span>
                     </span>
                   </div>
@@ -429,6 +434,11 @@ export default {
       };
     } catch (err) {
       console.log(err);
+    }
+  },
+  data() {
+    return {
+      value : 1
     }
   },
   methods: {

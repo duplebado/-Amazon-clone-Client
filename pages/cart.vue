@@ -72,8 +72,14 @@
                             </label>
                           </div>
                           <div class="sc-action-links">
-                            <select>
-                              <option>Qty: &nbsp;1</option>
+                            <select @change="onChangeQuantity($event, product)">
+                              <option
+                                v-for="i in 10"
+                                :key="i"
+                                :value="i"
+                                :selected="checkQty(product.quantity, i)"
+                                >Qty: &nbsp; {{ i }}</option
+                              >
                             </select>
                             &nbsp;&nbsp;
                             <span>|</span>
@@ -85,8 +91,10 @@
                             &nbsp; &nbsp;
                           </div>
                         </div>
+
                         <div class="col-sm-2 col-2 tr sm-txt-r">
                           <!-- Product's Price -->
+
                           <p class="a-spacing-small">
                             <span
                               class="a-size-medium a-color-price sc-price sc-white-space-nowrap sc-product-price sc-price-sign a-text-bold"
@@ -229,6 +237,19 @@ import { mapGetters } from "vuex";
 export default {
   computed: {
     ...mapGetters(["getCart", "getCartTotalPrice", "getCartLength"])
+  },
+  methods: {
+    onChangeQuantity(event, product) {
+      let qty = parseInt(event.target.value);
+      this.$store.commit("changeQty", { product, qty });
+    },
+    checkQty(prodQty, qty) {
+      if (parseInt(prodQty) === parseInt(qty)) {
+        return true;
+      } else {
+        return false;
+      }
+    }
   }
 };
 </script>
