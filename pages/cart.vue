@@ -74,7 +74,7 @@
                           <div class="sc-action-links">
                             <select @change="onChangeQuantity($event, product)">
                               <option
-                                v-for="i in 10"
+                                v-for="i in 15"
                                 :key="i"
                                 :value="i"
                                 :selected="checkQty(product.quantity, i)"
@@ -85,7 +85,10 @@
                             <span>|</span>
                             &nbsp;
                             <!-- Delete button -->
-                            <span class="a-size-small">
+                            <span
+                              class="a-size-small"
+                              @click="deleteFromCart(product)"
+                            >
                               <a href="#">Delete</a>
                             </span>
                             &nbsp; &nbsp;
@@ -233,7 +236,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
   computed: {
     ...mapGetters(["getCart", "getCartTotalPrice", "getCartLength"])
@@ -249,7 +252,8 @@ export default {
       } else {
         return false;
       }
-    }
+    },
+    ...mapActions(["deleteFromCart"])
   }
 };
 </script>
