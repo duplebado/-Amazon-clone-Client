@@ -127,7 +127,7 @@
                   <div
                     class="a-row a-color-state a-text-bold a-size-medium a-spacing-small"
                   >
-                    Estimated delivery: 29 November 2019
+                    Estimated delivery: {{ estimatedDelivery }}
                   </div>
                   <div class="row">
                     <!-- Cart -->
@@ -205,7 +205,12 @@
                           <!-- Delivery option -->
                           <div class="a-spacing-mini wednesday">
                             <!-- Shipping normal -->
-                            <input type="radio" name="order0" />
+                            <input
+                              type="radio"
+                              name="order0"
+                              checked="checked"
+                              @change="onSetShipping('normal')"
+                            />
                             <span class="a-radio-label">
                               <span class="a-color-success">
                                 <strong>Averages 7 business days</strong>
@@ -220,7 +225,11 @@
                           <br />
                           <div class="a-spacing-mini tuesday">
                             <!-- Shipping fast -->
-                            <input type="radio" name="order0" />
+                            <input
+                              type="radio"
+                              name="order0"
+                              @change="onSetShipping('fast')"
+                            />
                             <span class="a-radio-label">
                               <span class="a-color-success">
                                 <strong>Averages 3 business days</strong>
@@ -279,7 +288,9 @@
                       <div class="row">
                         <!-- Shipping cost -->
                         <div class="col-sm-6">Shipping & handling:</div>
-                        <div class="col-sm-6 text-right">USD 92</div>
+                        <div class="col-sm-6 text-right">
+                          USD {{ shippingPrice }}
+                        </div>
                       </div>
                       <div class="row mt-2">
                         <div class="col-sm-6"></div>
@@ -290,7 +301,9 @@
                       <!-- Total Price with Shipping -->
                       <div class="row">
                         <div class="col-sm-6">Total Before Tax:</div>
-                        <div class="col-sm-6 text-right">USD 300023</div>
+                        <div class="col-sm-6 text-right">
+                          USD {{ getOrderTotal }}
+                        </div>
                       </div>
                       <div class="row">
                         <div class="col-sm-6">
@@ -308,7 +321,7 @@
                         <div class="col-sm-6 text-right">
                           <!-- Total Price with Shipping -->
                           <div class="a-color-price a-size-medium a-text-bold">
-                            USD 300023
+                            USD {{ getOrderTotal }}
                           </div>
                         </div>
                       </div>
@@ -406,8 +419,45 @@
 import { mapGetters } from "vuex";
 export default {
   layout: "none",
+  async asyncData({ $axios, store }) {
+    try {
+      let response = await $axios.$post("/api/shipment", {
+        shipment: "normal"
+      });
+      store.commit("setShipping", {
+        shippingPrice: response.shipment.price,
+        estimatedDelivery: response.shipment.estimated
+      });
+
+      return {
+        shippingPrice: response.shipment.price,
+        estimatedDelivery: response.shipment.estimated
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  },
   computed: {
-    ...mapGetters(["getCart", "getCartTotalPrice"])
+    ...mapGetters(["getCart", "getCartTotalPrice", "getOrderTotal"])
+  },
+  methods: {
+    async onSetShipping(period) {
+      try {
+        let response = await this.$axios.$post("/api/shipment", {
+          shipment: period
+        });
+
+        this.$store.commit("setShipping", {
+          shippingPrice: response.shipment.price,
+          estimatedDelivery: response.shipment.estimated
+        });
+
+        (this.shippingPrice = response.shipment.price),
+          (this.estimatedDelivery = response.shipment.estimated);
+      } catch (error) {
+        console.log(error);
+      }
+    }
   }
 };
 </script>
