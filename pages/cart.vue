@@ -152,17 +152,19 @@
                       >This order contains a gift</span
                     >
                   </div>
-                  <div>
-                    <span
-                      class="a-spacing-small a-button-primary a-button-icon"
-                    >
-                      <span class="a-button-inner">
-                        <a href="#" class="a-button-text"
-                          >Proceed to checkout</a
-                        >
+                  <nuxt-link to="/placeorder">
+                    <div>
+                      <span
+                        class="a-spacing-small a-button-primary a-button-icon"
+                      >
+                        <span class="a-button-inner">
+                          <a href="#" class="a-button-text"
+                            >Proceed to checkout</a
+                          >
+                        </span>
                       </span>
-                    </span>
-                  </div>
+                    </div>
+                  </nuxt-link>
                 </div>
               </div>
             </div>
