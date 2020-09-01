@@ -34,7 +34,7 @@
             <div class="a-section">
               <h2>Make a payment</h2>
               <div class="a-section a-spacing-none a-spacing-top-small">
-                <b>The total price is $999999</b>
+                <b>The total price is ${{ getOrderTotal }}</b>
               </div>
 
               <!-- Error message  -->
@@ -68,7 +68,9 @@
                   <div class="a-spacing-top-large">
                     <span class="a-button-register">
                       <span class="a-button-inner">
-                        <span class="a-button-text">Purchase</span>
+                        <span @click="onPurchase" class="a-button-text"
+                          >Purchase</span
+                        >
                       </span>
                     </span>
                   </div>
@@ -86,7 +88,12 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
+  computed: {
+    ...mapGetters(["getCart", "getOrderTotal", "getEstimatedDelivery"])
+  },
   data() {
     return {
       error: "",
@@ -101,6 +108,27 @@ export default {
     let elements = this.stripe.elements();
     this.card = elements.create("card");
     this.card.mount(this.$refs.card);
+  },
+  methods: {
+    async onPurchase() {
+      try {
+        let token = await this.stripe.createToken(this.card);
+
+        let response = await this.$axios.$post("/api/payment", {
+          token: token,
+          totalPrice: this.getOrderTotal,
+          cart: this.getCart,
+          estimatedDelivery: this.estimatedDelivery
+        });
+
+        if (response.success) {
+          this.$store.commit("clearCart");
+          this.$router.push("/");
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
   }
 };
 </script>

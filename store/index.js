@@ -87,6 +87,13 @@ export const mutations = {
   setShipping(state, { shippingPrice, estimatedDelivery }) {
     state.shippingPrice = shippingPrice;
     state.estimatedDelivery = estimatedDelivery;
+  },
+
+  clearCart(state) {
+    state.cart = [];
+    state.cartLength = 0;
+    state.shippingPrice = 0;
+    state.estimatedDelivery = "";
   }
 };
 
@@ -124,5 +131,8 @@ export const getters = {
     });
 
     return totalPrice + state.shippingPrice;
+  },
+  getEstimatedDelivery(state) {
+    return state.estimatedDelivery;
   }
 };
