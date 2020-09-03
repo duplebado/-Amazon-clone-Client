@@ -118,7 +118,7 @@ export default {
           token: token,
           totalPrice: this.getOrderTotal,
           cart: this.getCart,
-          estimatedDelivery: this.estimatedDelivery
+          estimatedDelivery: this.getEstimatedDelivery
         });
 
         if (response.success) {

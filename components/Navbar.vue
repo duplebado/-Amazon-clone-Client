@@ -21,21 +21,42 @@
 
         <div class="row">
           <!-- Delivery -->
-          <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 pt-2">
-            <div class="nav-global-location">
-              <nuxt-link to="/address" class="nav-a nav-a-2">
-                <div class="nav-sprite" id="nav-packard-glow-loc-icon"></div>
-                <div id="glow-ingress-block">
-                  <span class="nav-line-1" id="glow-ingress-line1"
-                    >Deliver to</span
-                  >
-                  <span class="nav-line-2" id="glow-ingress-line2">
-                    {{ $auth.$state.user.address.city }}
-                  </span>
-                </div>
-              </nuxt-link>
+          <!-- <template v-if="$auth.$state.user.address.city">
+            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 pt-2">
+              <div class="nav-global-location">
+                <nuxt-link to="/address" class="nav-a nav-a-2">
+                  <div class="nav-sprite" id="nav-packard-glow-loc-icon"></div>
+                  <div id="glow-ingress-block">
+                    <span class="nav-line-1" id="glow-ingress-line1"
+                      >Deliver to</span
+                    >
+                    <span class="nav-line-2" id="glow-ingress-line2">
+                      {{ $auth.$state.user.address.city }}
+                    </span>
+                  </div>
+                </nuxt-link>
+              </div>
             </div>
-          </div>
+          </template> -->
+
+          <!-- Delivery -->
+          <template>
+            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 pt-2">
+              <div class="nav-global-location">
+                <nuxt-link to="/address" class="nav-a nav-a-2">
+                  <div class="nav-sprite" id="nav-packard-glow-loc-icon"></div>
+                  <div id="glow-ingress-block">
+                    <span class="nav-line-1" id="glow-ingress-line1"
+                      >Deliver to</span
+                    >
+                    <span class="nav-line-2" id="glow-ingress-line2">
+                      Nigeria
+                    </span>
+                  </div>
+                </nuxt-link>
+              </div>
+            </div>
+          </template>
           <!-- Shopping -->
           <div class="col-xl-6 col-lg-5 col-md-4 col-sm-6 pt-0">
             <div class="nav-fill">

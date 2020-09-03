@@ -105,7 +105,6 @@ export default {
             password: this.password
           }
         });
-
         this.$router.push("/");
       } catch (err) {
         console.log(err);
